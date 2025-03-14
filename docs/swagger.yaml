@@ -1,0 +1,1390 @@
+basePath: /api/v1
+definitions:
+  models.Archive:
+    properties:
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      created_by_id:
+        type: integer
+      description:
+        type: string
+      file_path:
+        type: string
+      file_size:
+        type: integer
+      file_type:
+        type: string
+      id:
+        type: integer
+      metadata:
+        description: JSONB field for custom metadata
+        type: string
+      status:
+        $ref: '#/definitions/models.ArchiveStatus'
+      tenant_id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ArchiveStatus:
+    enum:
+    - active
+    - inactive
+    - confidential
+    type: string
+    x-enum-varnames:
+    - ArchiveStatusActive
+    - ArchiveStatusInactive
+    - ArchiveStatusConfidential
+  models.Asset:
+    properties:
+      assigned_to_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      metadata:
+        description: JSONB field for custom metadata
+        type: string
+      name:
+        type: string
+      notes:
+        type: string
+      purchase_date:
+        type: string
+      purchase_price:
+        type: number
+      serial_number:
+        type: string
+      status:
+        $ref: '#/definitions/models.AssetStatus'
+      tenant_id:
+        type: integer
+      type:
+        $ref: '#/definitions/models.AssetType'
+      updated_at:
+        type: string
+    type: object
+  models.AssetStatus:
+    enum:
+    - available
+    - assigned
+    - maintenance
+    - retired
+    type: string
+    x-enum-varnames:
+    - AssetStatusAvailable
+    - AssetStatusAssigned
+    - AssetStatusMaintenance
+    - AssetStatusRetired
+  models.AssetType:
+    enum:
+    - computer
+    - vehicle
+    - furniture
+    - equipment
+    - other
+    type: string
+    x-enum-varnames:
+    - AssetTypeComputer
+    - AssetTypeVehicle
+    - AssetTypeFurniture
+    - AssetTypeEquipment
+    - AssetTypeOther
+  models.Category:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      permissions:
+        description: JSONB field for permissions
+        type: string
+      tenant_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Lead:
+    properties:
+      assigned_to:
+        type: integer
+      category_id:
+        type: integer
+      contact:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      notes:
+        type: string
+      status:
+        type: string
+      tenant_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Staff:
+    properties:
+      created_at:
+        type: string
+      department:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      position:
+        type: string
+      profile:
+        description: JSONB field for custom attributes
+        type: string
+      role:
+        $ref: '#/definitions/models.StaffRole'
+      tenant_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.StaffRole:
+    enum:
+    - admin
+    - manager
+    - employee
+    type: string
+    x-enum-varnames:
+    - RoleStaffAdmin
+    - RoleStaffManager
+    - RoleStaffEmployee
+  models.Tenant:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      plan:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.Ticket:
+    properties:
+      assigned_to_id:
+        type: integer
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      created_by_id:
+        type: integer
+      description:
+        type: string
+      due_date:
+        type: string
+      id:
+        type: integer
+      metadata:
+        description: JSONB field for custom metadata
+        type: string
+      notes:
+        type: string
+      priority:
+        $ref: '#/definitions/models.TicketPriority'
+      related_asset_id:
+        type: integer
+      status:
+        $ref: '#/definitions/models.TicketStatus'
+      tenant_id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.TicketPriority:
+    enum:
+    - low
+    - medium
+    - high
+    - critical
+    type: string
+    x-enum-varnames:
+    - TicketPriorityLow
+    - TicketPriorityMedium
+    - TicketPriorityHigh
+    - TicketPriorityCritical
+  models.TicketStatus:
+    enum:
+    - open
+    - in_progress
+    - resolved
+    - closed
+    type: string
+    x-enum-varnames:
+    - TicketStatusOpen
+    - TicketStatusInProgress
+    - TicketStatusResolved
+    - TicketStatusClosed
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      profile:
+        description: JSONB field for custom attributes
+        type: string
+      role:
+        $ref: '#/definitions/models.UserRole'
+      tenant_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.UserRole:
+    enum:
+    - admin
+    - sales
+    - support
+    type: string
+    x-enum-varnames:
+    - RoleAdmin
+    - RoleSales
+    - RoleSupport
+host: localhost:3000
+info:
+  contact:
+    email: support@kontena.io
+    name: API Support
+  description: Multi-tenant CRM API built with Golang and Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Kontena CRM API
+  version: "1.0"
+paths:
+  /archives:
+    get:
+      consumes:
+      - application/json
+      description: Get all archives for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Archive'
+            type: array
+      summary: Get all archives
+      tags:
+      - archives
+    post:
+      consumes:
+      - application/json
+      description: Create a new archive for the current tenant
+      parameters:
+      - description: Archive information
+        in: body
+        name: archive
+        required: true
+        schema:
+          $ref: '#/definitions/models.Archive'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Archive'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create an archive
+      tags:
+      - archives
+  /archives/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an archive by ID for the current tenant
+      parameters:
+      - description: Archive ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an archive
+      tags:
+      - archives
+    get:
+      consumes:
+      - application/json
+      description: Get an archive by ID for the current tenant
+      parameters:
+      - description: Archive ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Archive'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get an archive
+      tags:
+      - archives
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing archive for the current tenant
+      parameters:
+      - description: Archive ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Archive information
+        in: body
+        name: archive
+        required: true
+        schema:
+          $ref: '#/definitions/models.Archive'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Archive'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an archive
+      tags:
+      - archives
+  /assets:
+    get:
+      consumes:
+      - application/json
+      description: Get all assets for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Asset'
+            type: array
+      summary: Get all assets
+      tags:
+      - assets
+    post:
+      consumes:
+      - application/json
+      description: Create a new asset for the current tenant
+      parameters:
+      - description: Asset information
+        in: body
+        name: asset
+        required: true
+        schema:
+          $ref: '#/definitions/models.Asset'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create an asset
+      tags:
+      - assets
+  /assets/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an asset by ID for the current tenant
+      parameters:
+      - description: Asset ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an asset
+      tags:
+      - assets
+    get:
+      consumes:
+      - application/json
+      description: Get an asset by ID for the current tenant
+      parameters:
+      - description: Asset ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get an asset
+      tags:
+      - assets
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing asset for the current tenant
+      parameters:
+      - description: Asset ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Asset information
+        in: body
+        name: asset
+        required: true
+        schema:
+          $ref: '#/definitions/models.Asset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update an asset
+      tags:
+      - assets
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: Get all categories for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Category'
+            type: array
+      summary: Get all categories
+      tags:
+      - categories
+    post:
+      consumes:
+      - application/json
+      description: Create a new category for the current tenant
+      parameters:
+      - description: Category information
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a category
+      tags:
+      - categories
+  /categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a category by ID for the current tenant
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a category
+      tags:
+      - categories
+    get:
+      consumes:
+      - application/json
+      description: Get a category by ID for the current tenant
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a category
+      tags:
+      - categories
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing category for the current tenant
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category information
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Category'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a category
+      tags:
+      - categories
+  /leads:
+    get:
+      consumes:
+      - application/json
+      description: Get all leads for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lead'
+            type: array
+      summary: Get all leads
+      tags:
+      - leads
+    post:
+      consumes:
+      - application/json
+      description: Create a new lead for the current tenant
+      parameters:
+      - description: Lead information
+        in: body
+        name: lead
+        required: true
+        schema:
+          $ref: '#/definitions/models.Lead'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Lead'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a lead
+      tags:
+      - leads
+  /leads/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a lead by ID for the current tenant
+      parameters:
+      - description: Lead ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a lead
+      tags:
+      - leads
+    get:
+      consumes:
+      - application/json
+      description: Get a lead by ID for the current tenant
+      parameters:
+      - description: Lead ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Lead'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a lead
+      tags:
+      - leads
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing lead for the current tenant
+      parameters:
+      - description: Lead ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Lead information
+        in: body
+        name: lead
+        required: true
+        schema:
+          $ref: '#/definitions/models.Lead'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Lead'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a lead
+      tags:
+      - leads
+  /staff:
+    get:
+      consumes:
+      - application/json
+      description: Get all staff members for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Staff'
+            type: array
+      summary: Get all staff members
+      tags:
+      - staff
+    post:
+      consumes:
+      - application/json
+      description: Create a new staff member for the current tenant
+      parameters:
+      - description: Staff member information
+        in: body
+        name: staff
+        required: true
+        schema:
+          $ref: '#/definitions/models.Staff'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Staff'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a staff member
+      tags:
+      - staff
+  /staff/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a staff member by ID for the current tenant
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a staff member
+      tags:
+      - staff
+    get:
+      consumes:
+      - application/json
+      description: Get a staff member by ID for the current tenant
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Staff'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a staff member
+      tags:
+      - staff
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing staff member for the current tenant
+      parameters:
+      - description: Staff ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Staff member information
+        in: body
+        name: staff
+        required: true
+        schema:
+          $ref: '#/definitions/models.Staff'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Staff'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a staff member
+      tags:
+      - staff
+  /tenants:
+    get:
+      consumes:
+      - application/json
+      description: Get all tenants in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Tenant'
+            type: array
+      summary: Get all tenants
+      tags:
+      - tenants
+    post:
+      consumes:
+      - application/json
+      description: Create a new tenant
+      parameters:
+      - description: Tenant object
+        in: body
+        name: tenant
+        required: true
+        schema:
+          $ref: '#/definitions/models.Tenant'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Tenant'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a tenant
+      tags:
+      - tenants
+  /tenants/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a tenant by ID
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a tenant
+      tags:
+      - tenants
+    get:
+      consumes:
+      - application/json
+      description: Get a tenant by ID
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tenant'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a tenant
+      tags:
+      - tenants
+    put:
+      consumes:
+      - application/json
+      description: Update a tenant by ID
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Tenant object
+        in: body
+        name: tenant
+        required: true
+        schema:
+          $ref: '#/definitions/models.Tenant'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tenant'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a tenant
+      tags:
+      - tenants
+  /tickets:
+    get:
+      consumes:
+      - application/json
+      description: Get all tickets for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Ticket'
+            type: array
+      summary: Get all tickets
+      tags:
+      - tickets
+    post:
+      consumes:
+      - application/json
+      description: Create a new ticket for the current tenant
+      parameters:
+      - description: Ticket information
+        in: body
+        name: ticket
+        required: true
+        schema:
+          $ref: '#/definitions/models.Ticket'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a ticket
+      tags:
+      - tickets
+  /tickets/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a ticket by ID for the current tenant
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a ticket
+      tags:
+      - tickets
+    get:
+      consumes:
+      - application/json
+      description: Get a ticket by ID for the current tenant
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ticket'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a ticket
+      tags:
+      - tickets
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing ticket for the current tenant
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Ticket information
+        in: body
+        name: ticket
+        required: true
+        schema:
+          $ref: '#/definitions/models.Ticket'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a ticket
+      tags:
+      - tickets
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users for the current tenant
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user for the current tenant
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by ID for the current tenant
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get a user by ID for the current tenant
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a user
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing user for the current tenant
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a user
+      tags:
+      - users
+swagger: "2.0"
