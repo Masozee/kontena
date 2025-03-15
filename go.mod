@@ -1,4 +1,4 @@
-module github.com/kontena/api
+module github.com/Masozee/kontena/api
 
 go 1.21.0
 

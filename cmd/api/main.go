@@ -4,15 +4,15 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/Masozee/kontena/api/docs"
+	"github.com/Masozee/kontena/api/internal/database"
+	"github.com/Masozee/kontena/api/internal/handlers"
+	"github.com/Masozee/kontena/api/internal/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
-	_ "github.com/kontena/api/docs"
-	"github.com/kontena/api/internal/database"
-	"github.com/kontena/api/internal/handlers"
-	"github.com/kontena/api/internal/middleware"
 )
 
 // @title Kontena CRM API

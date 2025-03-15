@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/Masozee/kontena/api/internal/models"
 	"github.com/joho/godotenv"
-	"github.com/kontena/api/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

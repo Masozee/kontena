@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"github.com/Masozee/kontena/api/database"
+	"github.com/Masozee/kontena/api/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/your-username/project-management/database"
-	"github.com/your-username/project-management/models"
 )
 
 // GetTenants returns all tenants

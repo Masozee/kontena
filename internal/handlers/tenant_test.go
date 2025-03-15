@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Masozee/kontena/api/internal/database"
+	"github.com/Masozee/kontena/api/internal/handlers"
+	"github.com/Masozee/kontena/api/internal/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/kontena/api/internal/database"
-	"github.com/kontena/api/internal/handlers"
-	"github.com/kontena/api/internal/models"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

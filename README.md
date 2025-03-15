@@ -77,7 +77,8 @@ TimeTracking
 1. Clone the repository
 2. Set up your database connection in `.env`
 3. Run the migrations to create the database schema
-4. Start building your project management application
+4. Seed the database with test data (optional)
+5. Start building your project management application
 
 ## Environment Variables
 
@@ -109,6 +110,23 @@ db.AutoMigrate(
     &models.TimeTracking{},
 )
 ```
+
+## Seeding the Database
+
+To populate the database with test data, run:
+
+```bash
+make seed
+```
+
+This will create:
+- 3 tenants (Acme Corporation, Stark Industries, Wayne Enterprises)
+- 5 people per tenant
+- 3 projects per tenant
+- KPIs, tasks, milestones, and risks for each project
+- Time tracking entries for completed and in-progress tasks
+
+The seed data provides a realistic starting point for testing and development.
 
 ## License
 

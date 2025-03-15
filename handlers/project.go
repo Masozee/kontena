@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"fmt"
 	"strconv"
 
+	"github.com/Masozee/kontena/api/database"
+	"github.com/Masozee/kontena/api/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/your-username/project-management/database"
-	"github.com/your-username/project-management/models"
 )
 
 // GetProjects returns all projects for a tenant
@@ -18,7 +19,7 @@ import (
 // @Router /projects [get]
 func GetProjects(c *fiber.Ctx) error {
 	// Get tenant ID from context
-	tenantIDStr := c.Locals("tenantID")
+	tenantIDStr := c.Locals("tenant_id")
 	if tenantIDStr == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Tenant ID is required",
@@ -56,7 +57,7 @@ func GetProjects(c *fiber.Ctx) error {
 // @Router /projects/{id} [get]
 func GetProject(c *fiber.Ctx) error {
 	id := c.Params("id")
-	tenantIDStr := c.Locals("tenantID")
+	tenantIDStr := c.Locals("tenant_id")
 	if tenantIDStr == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Tenant ID is required",
@@ -94,7 +95,7 @@ func GetProject(c *fiber.Ctx) error {
 // @Router /projects/{id}/details [get]
 func GetProjectWithDetails(c *fiber.Ctx) error {
 	id := c.Params("id")
-	tenantIDStr := c.Locals("tenantID")
+	tenantIDStr := c.Locals("tenant_id")
 	if tenantIDStr == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Tenant ID is required",
@@ -142,26 +143,50 @@ func GetProjectWithDetails(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]string
 // @Router /projects [post]
 func CreateProject(c *fiber.Ctx) error {
+	// Log the request body for debugging
+	body := string(c.Body())
+	fmt.Printf("Request body: %s\n", body)
+
 	project := new(models.Project)
 	if err := c.BodyParser(project); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid request body",
+			"error": "Invalid request body: " + err.Error(),
+		})
+	}
+
+	// Validate required fields
+	if project.Name == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Project name is required",
 		})
 	}
 
 	// Set tenant ID from context
-	tenantIDStr := c.Locals("tenantID")
-	if tenantIDStr != nil {
-		tenantID, err := strconv.Atoi(tenantIDStr.(string))
-		if err == nil {
-			project.TenantID = uint(tenantID)
-		}
+	tenantIDStr := c.Locals("tenant_id")
+	if tenantIDStr == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Tenant ID is required",
+		})
+	}
+
+	tenantID, err := strconv.Atoi(tenantIDStr.(string))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid tenant ID format",
+		})
+	}
+
+	project.TenantID = uint(tenantID)
+
+	// Set default status if not provided
+	if project.Status == "" {
+		project.Status = "planning"
 	}
 
 	result := database.DB.Create(&project)
 	if result.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to create project",
+			"error": "Failed to create project: " + result.Error.Error(),
 		})
 	}
 
@@ -182,7 +207,7 @@ func CreateProject(c *fiber.Ctx) error {
 // @Router /projects/{id} [patch]
 func UpdateProject(c *fiber.Ctx) error {
 	id := c.Params("id")
-	tenantIDStr := c.Locals("tenantID")
+	tenantIDStr := c.Locals("tenant_id")
 	if tenantIDStr == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Tenant ID is required",
@@ -235,7 +260,7 @@ func UpdateProject(c *fiber.Ctx) error {
 // @Router /projects/{id} [delete]
 func DeleteProject(c *fiber.Ctx) error {
 	id := c.Params("id")
-	tenantIDStr := c.Locals("tenantID")
+	tenantIDStr := c.Locals("tenant_id")
 	if tenantIDStr == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Tenant ID is required",
@@ -249,6 +274,7 @@ func DeleteProject(c *fiber.Ctx) error {
 		})
 	}
 
+	// Check if project exists
 	var project models.Project
 	result := database.DB.Where("id = ? AND tenant_id = ?", id, tenantID).First(&project)
 	if result.Error != nil {
@@ -257,6 +283,7 @@ func DeleteProject(c *fiber.Ctx) error {
 		})
 	}
 
+	// Delete project
 	database.DB.Delete(&project)
 
 	return c.JSON(fiber.Map{

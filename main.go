@@ -10,9 +10,9 @@ import (
 	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
 
-	"github.com/your-username/project-management/database"
-	"github.com/your-username/project-management/handlers"
-	"github.com/your-username/project-management/middleware"
+	"github.com/Masozee/kontena/api/database"
+	"github.com/Masozee/kontena/api/handlers"
+	"github.com/Masozee/kontena/api/middleware"
 )
 
 // @title Project Management API
@@ -80,11 +80,14 @@ func main() {
 
 	// KPI routes
 	kpis := api.Group("/kpis")
-	kpis.Get("/", handlers.GetKPIs)
 	kpis.Get("/:id", handlers.GetKPI)
-	kpis.Post("/", handlers.CreateKPI)
 	kpis.Patch("/:id", handlers.UpdateKPI)
 	kpis.Delete("/:id", handlers.DeleteKPI)
+
+	// Project KPI routes
+	projectKpis := api.Group("/projects/:project_id/kpis")
+	projectKpis.Get("/", handlers.GetKPIs)
+	projectKpis.Post("/", handlers.CreateKPI)
 
 	// Task routes
 	tasks := api.Group("/tasks")
@@ -93,6 +96,69 @@ func main() {
 	tasks.Post("/", handlers.CreateTask)
 	tasks.Patch("/:id", handlers.UpdateTask)
 	tasks.Delete("/:id", handlers.DeleteTask)
+
+	// Project Task routes
+	projectTasks := api.Group("/projects/:project_id/tasks")
+	projectTasks.Get("/", handlers.GetTasks)
+	projectTasks.Post("/", handlers.CreateTask)
+
+	// Asset Management Routes
+
+	// Asset Category routes
+	assetCategories := api.Group("/asset-categories")
+	assetCategories.Get("/", handlers.GetAssetCategories)
+	assetCategories.Get("/:id", handlers.GetAssetCategory)
+	assetCategories.Post("/", handlers.CreateAssetCategory)
+	assetCategories.Put("/:id", handlers.UpdateAssetCategory)
+	assetCategories.Delete("/:id", handlers.DeleteAssetCategory)
+
+	// Asset routes
+	assets := api.Group("/assets")
+	assets.Get("/", handlers.GetAssets)
+	assets.Get("/:id", handlers.GetAsset)
+	assets.Post("/", handlers.CreateAsset)
+	assets.Put("/:id", handlers.UpdateAsset)
+	assets.Delete("/:id", handlers.DeleteAsset)
+
+	// Location routes
+	locations := api.Group("/locations")
+	locations.Get("/", handlers.GetLocations)
+	locations.Get("/:id", handlers.GetLocation)
+	locations.Post("/", handlers.CreateLocation)
+	locations.Put("/:id", handlers.UpdateLocation)
+	locations.Delete("/:id", handlers.DeleteLocation)
+
+	// Vendor routes
+	vendors := api.Group("/vendors")
+	vendors.Get("/", handlers.GetVendors)
+	vendors.Get("/:id", handlers.GetVendor)
+	vendors.Post("/", handlers.CreateVendor)
+	vendors.Put("/:id", handlers.UpdateVendor)
+	vendors.Delete("/:id", handlers.DeleteVendor)
+
+	// Procurement Request routes
+	procurementRequests := api.Group("/procurement-requests")
+	procurementRequests.Get("/", handlers.GetProcurementRequests)
+	procurementRequests.Get("/:id", handlers.GetProcurementRequest)
+	procurementRequests.Post("/", handlers.CreateProcurementRequest)
+	procurementRequests.Put("/:id", handlers.UpdateProcurementRequest)
+	procurementRequests.Delete("/:id", handlers.DeleteProcurementRequest)
+
+	// Asset Assignment routes
+	assetAssignments := api.Group("/asset-assignments")
+	assetAssignments.Get("/", handlers.GetAssetAssignments)
+	assetAssignments.Get("/:id", handlers.GetAssetAssignment)
+	assetAssignments.Post("/", handlers.CreateAssetAssignment)
+	assetAssignments.Put("/:id", handlers.UpdateAssetAssignment)
+	assetAssignments.Delete("/:id", handlers.DeleteAssetAssignment)
+
+	// Maintenance Record routes
+	maintenanceRecords := api.Group("/maintenance-records")
+	maintenanceRecords.Get("/", handlers.GetMaintenanceRecords)
+	maintenanceRecords.Get("/:id", handlers.GetMaintenanceRecord)
+	maintenanceRecords.Post("/", handlers.CreateMaintenanceRecord)
+	maintenanceRecords.Put("/:id", handlers.UpdateMaintenanceRecord)
+	maintenanceRecords.Delete("/:id", handlers.DeleteMaintenanceRecord)
 
 	// Get port from environment
 	port := os.Getenv("APP_PORT")

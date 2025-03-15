@@ -9,8 +9,13 @@ import (
 // TenantMiddleware extracts tenant_id from request headers or query parameters
 func TenantMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		// Try to get tenant_id from header
+		// Try to get tenant_id from headers (multiple formats)
 		tenantID := c.Get("X-Tenant-ID")
+
+		// If not found, try alternate header format
+		if tenantID == "" {
+			tenantID = c.Get("tenant_id")
+		}
 
 		// If not in header, try query parameter
 		if tenantID == "" {
@@ -26,7 +31,7 @@ func TenantMiddleware() fiber.Handler {
 					"error": "Invalid tenant ID format",
 				})
 			}
-			c.Locals("tenantID", tenantID)
+			c.Locals("tenant_id", tenantID)
 		} else {
 			// If no tenant ID is provided, return an error
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

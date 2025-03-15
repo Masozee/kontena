@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	"github.com/your-username/project-management/models"
+	"github.com/Masozee/kontena/api/models"
 )
 
 var DB *gorm.DB

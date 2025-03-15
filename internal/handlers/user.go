@@ -3,9 +3,9 @@ package handlers
 import (
 	"strconv"
 
+	"github.com/Masozee/kontena/api/internal/database"
+	"github.com/Masozee/kontena/api/internal/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/kontena/api/internal/database"
-	"github.com/kontena/api/internal/models"
 )
 
 // GetUsers returns all users for a tenant
